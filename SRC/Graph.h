@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <vector>
+#include <ctime>
 #include <string>
 #include "Node.h"
 
@@ -18,30 +19,35 @@ class Graph{
 		// default constructor
 		Graph();
 		
-		// generates a given number of nodes with the edge density 
+		// overloaded constructor:
+		// Builds a new graph, generating a number of nodes with an edge density
 		// - count: the amount of nodes that the graph should have
+		// - range: the range from where to pick the cost of each generated edge, starting from Zero
 		// - density: the density, i.e. if density=0.1, 10% of possible edges will exist
-		// remark: to each edge will be given a random cost
-		void generate(int count, float density = 0.1);
+		Graph(int nodes, int range, float density = 0.1);
 
 		// add a new node to the graph and returns a reference to it
 		Node* addNode(const string& alias);
+
+		// add an undirected edge between two nodes n1 and n2, with the specified cost
+		void link(Node* n1, Node* n2, int cost = 1);
+		void link(int n1, int n2, int cost);
 		
-		// get a reference to the node with the given alias
-		Node* getNode(string alias);
+		// overloaded method:
+		// gets the cost of the edge between two nodes. 
+		// - Returns -1 when no edge between the nodes are found
+		int getCost(int n1, int n2);			
+		int getCost(Node* n1, Node* n2);		
 		
-		// remove a node from the graph
-		void delNode(string alias);
+		// test if two nodes are adjacent
+		bool areAdjacent(int n1, int n2);
+		bool areAdjacent(Node* n1, Node* n2);
 		
-		// add an edge between two nodes n1 and n2, with the specified cost
-		void addEdge(Node* n1, Node* n2, int cost = 1);
-		
-		// delete the edge between two nodes n1 and n2
-		void delEdge(Node* n1, Node* n2);
-		
-		// get the cost associated with the edge from node n1 to node n2
-		int getCost(Node* n1, Node* n2);
-	
+		// get a node by its index
+		inline Node* getNode(int index) const {
+			return nodes[index];
+		}
+				
 		// print the nodes of the graph and it's edges
 		friend ostream& operator<< (ostream& out, const Graph& g);
 	

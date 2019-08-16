@@ -7,7 +7,7 @@
 
 using namespace std;
 
-struct Link;
+struct Edge;
 
 class Node{
 	
@@ -15,7 +15,7 @@ class Node{
 		
 		string alias;
 	
-		vector<Link> links;
+		vector<Edge> edges;
 	
 	public:
 		
@@ -29,13 +29,13 @@ class Node{
 		void addNeighbor(Node* n, int cost = 1);
 		
 		// get all adjacent nodes
-		inline const vector<Link>& getLinks() const { 
-			return links; 
+		inline const vector<Edge>& getEdges() const { 
+			return edges; 
 		}
 		
 };
 
-struct Link{
+struct Edge{
 	Node* target;
 	int cost;
 };
