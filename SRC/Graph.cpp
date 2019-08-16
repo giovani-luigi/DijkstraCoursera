@@ -22,7 +22,7 @@ Graph::Graph(int count, int range, float density){
 		for (int j=0; j<count; j++)
 			if ( (rand() % 100) < (density * 100) )
 				if ( !areAdjacent(i, j) ) // check if an edge already exists
-					link(i, j, rand() % range );  // create an edge between i and j, with a random cost within a range				
+					link(i, j, 1 + (rand() % range) );  // create an edge between i and j, with a random cost within a range				
 }
 
 // add a new node to the graph and returns a reference to it
