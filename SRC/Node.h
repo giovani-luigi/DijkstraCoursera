@@ -7,7 +7,7 @@
 
 using namespace std;
 
-struct Edge;
+struct Path;
 
 class Node{
 	
@@ -15,29 +15,40 @@ class Node{
 		
 		string alias;
 	
-		vector<Edge> edges;
+		vector<Path> neighbors;
 	
 	public:
 		
 		// constructor
-		Node(const string& alias);
+		Node(const string alias);
 				
 		// get the alias assigned to this node
 		string getAlias() const;
 		
-		// add a node into the adjancency list
-		void addNeighbor(Node* n, int cost = 1);
+		// add the node n from the grap as a neighbor of this node
+		// - n: the index (in the graph) of the neighbor to add
+		// - cost: [default=1] the cost/weight of the connection
+		void addNeighbor(int n, int cost = 1);
 		
 		// get all adjacent nodes
-		inline const vector<Edge>& getEdges() const { 
-			return edges; 
+		inline const vector<Path>& getNeighbors() const { 
+			return neighbors; 
 		}
 		
 };
 
-struct Edge{
-	Node* target;
+struct Path{
+	
+	int index;
 	int cost;
+	
+	// default initializer
+	Path(){ index=0; cost=0; }
+	
+	Path(int index, int cost){
+		this->index = index;
+		this->cost = cost;
+	}	
 };
 
 ostream& operator<< (ostream& out, const Node& right);

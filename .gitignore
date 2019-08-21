@@ -1,3 +1,4 @@
 /SRC/*.o
 /*.o
 /*.exe
+/DijkstraShortestPath.exe
