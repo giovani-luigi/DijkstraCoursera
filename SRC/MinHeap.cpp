@@ -149,5 +149,6 @@ void MinHeap::update(int valueOfNode, int newKey){
 }
 
 MinHeap::~MinHeap(){
-	
+	for (auto it=nodes.begin(); it!=nodes.end(); it++ )
+		delete *it;
 }

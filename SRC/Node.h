@@ -51,6 +51,19 @@ struct Path{
 	}	
 };
 
+struct Edge{
+	
+	int from;
+	int to;
+	int cost;
+	
+	Edge(int from, int to, int cost){
+		this->from = from;
+		this->to = to;
+		this->cost = cost;
+	}	
+};
+
 ostream& operator<< (ostream& out, const Node& right);
 
 #endif

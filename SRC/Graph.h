@@ -10,10 +10,12 @@
 #include <sstream>		// std::stringstream()
 
 #include "Node.h"
+#include "HeapVector.h"
 
 using namespace std;
 
 const int INFINITE_COST = INT_MAX;
+const bool VERBOSE = false;
 
 class Graph{
 	
@@ -56,7 +58,9 @@ class Graph{
 		vector<Node> getShortestPath(int sourceIndex, int targetIndex);
 		
 		// returns the min. spanning tree starting at a given node
-		Graph getMinimumSpanningTree(int sourceIndex);
+		// - sourceIndex: the index of the source node in the graph
+		// - min_cos: [output] the min. cost
+		Graph getMinimumSpanningTree(int sourceIndex, int& min_cost);
 		
 		// gets the number of nodes (vertices) in the graph
 		inline int size(){ return nodes.size();	}

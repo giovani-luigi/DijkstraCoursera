@@ -105,15 +105,50 @@
 
 void testMinSpanTree(){
 	
+	Graph *g = new Graph();
+	
+	cout << "Building nodes..." << endl;
+
+	int c0 = g->addNode(string("City 0")); // start
+	int c1 = g->addNode(string("City 1"));
+	int c2 = g->addNode(string("City 2"));
+	int c3 = g->addNode(string("City 3")); // end
+	
+	cout << "Linking nodes..." << endl;
+	
+	g->link(c0, c1, 1);
+	g->link(c0, c3, 2);
+	g->link(c1, c3, 3);
+	g->link(c1, c2, 4);
+	g->link(c2, c3, 5);
+	
+	int cost;
+	Graph mst = g->getMinimumSpanningTree(0, cost);
+
+	cout << "Min. cost is: " << cost << endl;
+	cout << "Min. Spanning Tree is:" << endl << mst << endl;
+	
+	cout << "Done." << endl << endl;
+	
+}
+
+void testMinSpanTreeFromFile(){
+	
 	Graph g("graph.txt");
 	
-	cout << g << endl;
+	int cost;
+	Graph mst = g.getMinimumSpanningTree(0, cost);
+
+	cout << "Min. cost is: " << cost << endl;
+	cout << "Min. Spanning Tree is:" << endl << mst << endl;
+	
+	cout << "Done." << endl << endl;
 	
 }
 
 int main(int argc, char** argv) {
 	
-	testMinSpanTree();
+	testMinSpanTreeFromFile();
 	
 	return 0;
 }

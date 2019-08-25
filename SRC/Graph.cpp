@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include "MinHeap.h"
+#include "HeapVector.h"
 
 // default constructor
 // creates an empty graph
@@ -157,9 +158,11 @@ vector<Node> Graph::getShortestPath(int sourceIndex, int targetIndex){
 	// Dijkstra's algorithm is done, now use generated
 	// data to build the best path from source to end.
 	
-	cout << "Result: " << endl;
-	for ( int i=0; i<nodes.size(); i++){
-		cout << "Routes from Vertex(" << i << ") to Vertex (" << routes[i].index << ") cost is = " << routes[i].cost << endl;
+	if (VERBOSE){
+		cout << "Result: " << endl;
+		for ( int i=0; i<nodes.size(); i++){
+			cout << "Routes from Vertex(" << i << ") to Vertex (" << routes[i].index << ") cost is = " << routes[i].cost << endl;
+		}
 	}
 	
 	// the shortest cost from source to target is stored
@@ -187,17 +190,62 @@ vector<Node> Graph::getShortestPath(int sourceIndex, int targetIndex){
 }
 
 // returns the min. spanning tree starting at a given node
-Graph Graph::getMinimumSpanningTree(int sourceIndex){
+Graph Graph::getMinimumSpanningTree(int sourceIndex, int& min_cost){
 	
-	// create a min heap where we will store the edges
-	// 
+	// initialize output cost
+	min_cost = 0;
 	
-	// add the new node to the visited set
-	// put all its edges to the priority queue
+	// create a graph to generate as output
+	Graph result;
+	for (int i=0; i<nodes.size(); i++)
+		result.addNode(to_string(i));
 	
-	// pull next edge from queue
-	// 
+	// create a min heap to sort the edges
+	HeapVector<Edge> edges;
+	bool visited[this->size()]; // creates an array of flags
 	
+	// initialize array of visited nodes
+	for (bool n : visited) 
+		n = false;
+	
+	// we start at source
+	edges.add(0, Edge(sourceIndex, sourceIndex, 0));
+	
+	do{
+		
+		// pull next edge from heap
+		Edge edge = edges.pull();
+		
+		if (VERBOSE)
+			cout << "Pulling edge with cost $" << edge.cost << " from node[" << edge.from << "] to node[" << edge.to << "]" << endl;
+
+		if (!visited[edge.to]){
+			
+			// add the next selected node to the visited set
+			visited[edge.to] = true;
+			
+			// add the cost of this edge
+			min_cost += edge.cost;
+			
+			// skip starting loop edge
+			if (edge.to != edge.from)
+				result.link(edge.from, edge.to, edge.cost); // use this edge in the resulting graph	
+			
+			if (VERBOSE)
+				cout << "Using edge with cost $" << edge.cost << " from node[" << edge.from << "] to node[" << edge.to << "]" << endl;
+		
+			// put all edges of selected node into the heap
+			auto neighbors = nodes[edge.to].getNeighbors();
+			for ( auto it = neighbors.begin(); it!=neighbors.end() ; it++){
+				if (!visited[it->index]){
+					edges.add(it->cost, Edge(edge.to, it->index, it->cost));
+				}
+			}
+		}
+	
+	} while (edges.size()>0); // loop until heap is empty		
+	
+	return result;
 }
 
 // output operator override

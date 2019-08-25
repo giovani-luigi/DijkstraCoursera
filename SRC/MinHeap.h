@@ -11,7 +11,7 @@ using namespace std;
 // This structure represents a node of a heap
 struct HeapNode {
 	
-	int key;   // (UNIQUE) used for sorting
+	int key;   // used for sorting
 	int value; // (UNIQUE) any data
 	
 	HeapNode(int key, int value){
@@ -22,7 +22,7 @@ struct HeapNode {
 
 // This class represents a Min Heap implementation, where:
 // -> every node of the heap is sorted by its 'key' field.
-// -> both 'key' and 'value' fields must be UNIQUE!
+// -> 'value' field must be UNIQUE for proper indexing
 // -> insert/update/delete are available
 // -> peek (look only) / poll (extract) are available to
 //    retrieve the member with the MINIMUM KEY of all.
