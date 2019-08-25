@@ -6,6 +6,48 @@
 Graph::Graph(){
 }
 
+// overloaded constructor:
+// Loads a graph from a text file
+// - filename: the path to the file as a null-terminated string (Coursera defined format)
+Graph::Graph(const char *filename){
+
+	ifstream file(filename);
+	
+	// skip if file cannot be opened
+	if (!file.good()) return;
+	
+	// load each line of the file to a string in a vector
+	vector<string> lines;
+	string line;
+	while (getline(file, line, '\n'))
+		lines.push_back(line);
+	
+	// The file format is an initial integer that is the node size of the graph 
+	// and the further values will be integer triples: (i, j, cost). 
+	// we will skip 1st line as the graph is dynamically allocated
+	
+	// 1st pass: create all nodes 
+	int last = -1;
+	for(auto it= ++lines.begin(); it!=lines.end(); it++){
+		int read;
+		stringstream ss(*it);
+		ss >> read;
+		if (read != last){ // add if node does not exist
+			this->addNode(to_string(read));
+			last=read;
+		}
+	}
+	
+	// 2nd pass: connect the nodes
+	for(auto it= ++lines.begin(); it!=lines.end(); it++){
+		int i, j, cost;
+		stringstream ss(*it);
+		ss >> skipws >> i >> j >> cost;
+		this->link(i, j, cost);
+	}
+	
+}
+
 // overloaded constructor
 // Builds a new graph, generating a number of nodes with an edge density
 Graph::Graph(int count, int range, float density){
@@ -56,8 +98,7 @@ bool Graph::areAdjacent(int n1, int n2){
 	return (getCost(n1, n2) > -1);
 }
 
-// overloaded method:
-// find the shortest path between two nodes, using Dijkstra algorithm
+// returns the shortest path between a source and a target node using Dijkstra algorithm
 vector<Node> Graph::getShortestPath(int sourceIndex, int targetIndex){
 	
 	// in order to calculate the sequence of nodes we need to follow
@@ -145,6 +186,20 @@ vector<Node> Graph::getShortestPath(int sourceIndex, int targetIndex){
 	return bestPath; // return by copy
 }
 
+// returns the min. spanning tree starting at a given node
+Graph Graph::getMinimumSpanningTree(int sourceIndex){
+	
+	// create a min heap where we will store the edges
+	// 
+	
+	// add the new node to the visited set
+	// put all its edges to the priority queue
+	
+	// pull next edge from queue
+	// 
+	
+}
+
 // output operator override
 ostream& operator<< (ostream& out, const Graph& g){
 	for (int i = 0; i<g.nodes.size(); i++){
@@ -155,7 +210,7 @@ ostream& operator<< (ostream& out, const Graph& g){
 		// print all connections from current node
 		vector<Path> paths = g.nodes[i].getNeighbors();
 		for (int j = 0; j<paths.size(); j++)
-			out << "($" << paths[j].cost << ", '" << g.nodes[paths[j].index].getAlias() << "')";
+			out << "('" << g.nodes[paths[j].index].getAlias() << "'; $" << paths[j].cost << ")";
 		
 		out<< endl;
 	}	
