@@ -56,7 +56,7 @@ class Graph{
 		vector<Node> getShortestPath(int sourceIndex, int targetIndex);
 		
 		// returns the min. spanning tree starting at a given node
-		Graph Graph::getMinimumSpanningTree(int sourceIndex){		
+		Graph getMinimumSpanningTree(int sourceIndex);
 		
 		// gets the number of nodes (vertices) in the graph
 		inline int size(){ return nodes.size();	}
